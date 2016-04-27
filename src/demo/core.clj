@@ -21,9 +21,6 @@
 (defn read-file [filename]
 	(extract-words-from (slurp filename)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; rough algorithm for calculating syllable count
-;; counts the transitions from vowel to consonant
 (defn pair-up [word]
 	(partition 2 1 word))
 
@@ -41,7 +38,6 @@
 		(if (not (= count 0))
 			count
 			1)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn sum-syllables [word-map]
 	(reduce + (map :syllables word-map)))
@@ -90,11 +86,13 @@
 			poem)) 
 		lined))
 
+
 (defn make-a-sstring [lined]
 	(str/join "\n\n" (map #(str/join "\n" %) lined)))
 
+
 (defn -main [& args]
-	(let [words (read-file "bible.txt")]
+	(let [words (read-file "text.txt")]
 		(let [haikus (groom (haikuify (into [] (map (fn [word] {:word word :syllables (syll-count word)}) words))))]
 			(let [lined (linify haikus)]
 				(println (make-a-sstring (just-words lined)))))))
